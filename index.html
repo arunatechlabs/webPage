@@ -1,94 +1,772 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="stylesheet.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FUTURE_X</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ArUnaTechLabs – PCB Assembly Bangalore</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --green: #00ff88;
+    --green-dim: #00cc6a;
+    --amber: #ffb800;
+    --white: #f0ede8;
+    --grey: #444;
+    --text-muted: #888;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'DM Mono', monospace;
+    overflow-x: hidden;
+  }
+
+  /* GRID BACKGROUND */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,255,136,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,136,0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0,255,136,0.08);
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+  }
+  .logo span { color: var(--green); }
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 36px;
+  }
+  nav ul a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  nav ul a:hover { color: var(--green); }
+  .nav-cta {
+    background: var(--green);
+    color: #000 !important;
+    padding: 9px 20px;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+  .nav-cta:hover { background: var(--green-dim) !important; color: #000 !important; }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 48px 80px;
+    z-index: 1;
+  }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 32px;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 28px; height: 1px;
+    background: var(--green);
+  }
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    max-width: 900px;
+    margin-bottom: 32px;
+  }
+  h1 em {
+    font-style: normal;
+    color: var(--green);
+  }
+  .hero-sub {
+    font-size: 1rem;
+    color: var(--text-muted);
+    max-width: 520px;
+    line-height: 1.7;
+    margin-bottom: 48px;
+  }
+  .hero-sub strong { color: var(--white); }
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    background: var(--green);
+    color: #000;
+    padding: 14px 32px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.15s, background 0.2s;
+  }
+  .btn-primary:hover { background: var(--green-dim); transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent;
+    color: var(--white);
+    padding: 14px 32px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    border: 1px solid var(--grey);
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--green); color: var(--green); }
+
+  /* PCB CIRCUIT DECORATION */
+  .hero-deco {
+    position: absolute;
+    right: 48px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: min(420px, 40vw);
+    opacity: 0.18;
+    pointer-events: none;
+  }
+
+  /* STATS STRIP */
+  .stats {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid rgba(0,255,136,0.1);
+    border-bottom: 1px solid rgba(0,255,136,0.1);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background: var(--surface);
+  }
+  .stat {
+    padding: 36px 48px;
+    border-right: 1px solid rgba(0,255,136,0.1);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: var(--green);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .stat-label {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* SECTIONS */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 100px 48px;
+  }
+  .section-tag {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 16px;
+  }
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin-bottom: 24px;
+  }
+  .section-desc {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.75;
+    max-width: 560px;
+    margin-bottom: 64px;
+  }
+
+  /* SERVICES */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2px;
+  }
+  .service-card {
+    background: var(--surface);
+    padding: 40px 36px;
+    border: 1px solid rgba(0,255,136,0.07);
+    transition: border-color 0.25s, transform 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--green);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-card:hover { border-color: rgba(0,255,136,0.25); transform: translateY(-4px); }
+  .service-icon {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  .service-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .service-card p {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* HOW IT WORKS */
+  #process { background: var(--surface); }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0;
+    counter-reset: steps;
+    margin-top: 0;
+  }
+  .step {
+    padding: 40px 32px;
+    border-right: 1px solid rgba(0,255,136,0.08);
+    position: relative;
+    counter-increment: steps;
+  }
+  .step:last-child { border-right: none; }
+  .step-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 3rem;
+    font-weight: 800;
+    color: rgba(0,255,136,0.15);
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+  .step h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--white);
+  }
+  .step p {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* PRICING */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+  .pricing-card {
+    background: var(--surface);
+    border: 1px solid rgba(0,255,136,0.1);
+    padding: 44px 36px;
+    border-radius: 6px;
+    position: relative;
+  }
+  .pricing-card.featured {
+    border-color: var(--green);
+    background: rgba(0,255,136,0.04);
+  }
+  .badge {
+    position: absolute;
+    top: -12px; left: 36px;
+    background: var(--green);
+    color: #000;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+  .pricing-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .pricing-range {
+    color: var(--green);
+    font-size: 0.85rem;
+    margin-bottom: 24px;
+    letter-spacing: 0.05em;
+  }
+  .pricing-card ul {
+    list-style: none;
+    margin-bottom: 32px;
+  }
+  .pricing-card ul li {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .pricing-card ul li::before {
+    content: '→';
+    color: var(--green);
+    flex-shrink: 0;
+  }
+
+  /* CONTACT */
+  #contact { background: var(--surface); }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .contact-info h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .contact-info p {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+  .contact-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    margin-bottom: 24px;
+  }
+  .contact-item-icon {
+    color: var(--green);
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .contact-item-text {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .contact-item-text strong { color: var(--white); display: block; margin-bottom: 2px; }
+
+  form { display: flex; flex-direction: column; gap: 16px; }
+  input, textarea, select {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--grey);
+    color: var(--white);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    padding: 14px 18px;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+  input:focus, textarea:focus, select:focus { border-color: var(--green); }
+  select option { background: var(--bg); }
+  textarea { resize: vertical; min-height: 120px; }
+  ::placeholder { color: var(--grey); }
+
+  /* FOOTER */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid rgba(0,255,136,0.08);
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+  footer .logo { font-size: 0.95rem; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-tag, h1, .hero-sub, .hero-actions {
+    animation: fadeUp 0.7s ease both;
+  }
+  .hero-tag { animation-delay: 0.1s; }
+  h1 { animation-delay: 0.2s; }
+  .hero-sub { animation-delay: 0.35s; }
+  .hero-actions { animation-delay: 0.5s; }
+
+  /* GLOW CURSOR */
+  .glow {
+    position: fixed;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,255,136,0.06) 0%, transparent 70%);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: left 0.1s, top 0.1s;
+    z-index: 0;
+  }
+
+  @media(max-width: 768px) {
+    nav { padding: 16px 24px; }
+    nav ul { display: none; }
+    .hero { padding: 100px 24px 60px; }
+    .hero-deco { display: none; }
+    .stats { grid-template-columns: 1fr; }
+    .stat { border-right: none; border-bottom: 1px solid rgba(0,255,136,0.1); }
+    section { padding: 70px 24px; }
+    .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
 </head>
 <body>
 
-    <div class="nav-container d-flex flex-column justify-content-center">
-        <div class="nav-content">
-            <h1 class="nav-content-h1">ArunatechLabs</h1>
-            <p class="nav-content-p">"We will guide you every step of the way"</p>
-        </div>
+<div class="glow" id="glow"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Aruna<span>TechLabs</span></div>
+  <ul>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#contact" class="nav-cta">Get a Quote</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">Bangalore, India · PCB Assembly</div>
+  <h1>Precision <em>PCB</em><br>Assembly,<br>Built Local.</h1>
+  <p class="hero-sub">
+    Professional PCB assembly services right here in <strong>Bengaluru</strong>. From prototype runs of just <strong>3 boards</strong> to full production batches — we scale with your timeline.
+  </p>
+  <div class="hero-actions">
+    <a href="#contact" class="btn-primary">Request a Quote →</a>
+    <a href="#process" class="btn-outline">How It Works</a>
+  </div>
+
+  <!-- SVG PCB decoration -->
+  <svg class="hero-deco" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="40" y="40" width="320" height="320" rx="8" stroke="#00ff88" stroke-width="1.5"/>
+    <rect x="70" y="70" width="260" height="260" rx="4" stroke="#00ff88" stroke-width="0.5"/>
+    <!-- traces -->
+    <path d="M100 200 H160 V140 H260" stroke="#00ff88" stroke-width="1.5"/>
+    <path d="M100 260 H200 V300" stroke="#00ff88" stroke-width="1.5"/>
+    <path d="M300 200 H340" stroke="#00ff88" stroke-width="1.5"/>
+    <path d="M200 100 V60" stroke="#00ff88" stroke-width="1.5"/>
+    <path d="M260 260 H300 V320" stroke="#00ff88" stroke-width="1.5"/>
+    <!-- pads -->
+    <circle cx="160" cy="200" r="6" fill="#00ff88"/>
+    <circle cx="260" cy="140" r="6" fill="#00ff88"/>
+    <circle cx="200" cy="260" r="6" fill="#00ff88"/>
+    <circle cx="300" cy="200" r="6" fill="#00ff88"/>
+    <!-- ICs -->
+    <rect x="160" y="155" width="80" height="50" rx="3" stroke="#00ff88" stroke-width="1.5"/>
+    <rect x="120" y="230" width="60" height="40" rx="3" stroke="#00ff88" stroke-width="1.5"/>
+    <!-- via holes -->
+    <circle cx="100" cy="200" r="4" stroke="#00ff88" stroke-width="1"/>
+    <circle cx="100" cy="260" r="4" stroke="#00ff88" stroke-width="1"/>
+    <circle cx="200" cy="100" r="4" stroke="#00ff88" stroke-width="1"/>
+    <circle cx="200" cy="300" r="4" stroke="#00ff88" stroke-width="1"/>
+    <circle cx="300" cy="320" r="4" stroke="#00ff88" stroke-width="1"/>
+    <!-- corner markers -->
+    <path d="M40 80 V40 H80" stroke="#00ff88" stroke-width="2"/>
+    <path d="M360 80 V40 H320" stroke="#00ff88" stroke-width="2"/>
+    <path d="M40 320 V360 H80" stroke="#00ff88" stroke-width="2"/>
+    <path d="M360 320 V360 H320" stroke="#00ff88" stroke-width="2"/>
+  </svg>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat">
+    <div class="stat-num">3+</div>
+    <div class="stat-label">Minimum PCB Order</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">∞</div>
+    <div class="stat-label">Max Qty (Timeline-Based)</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">BLR</div>
+    <div class="stat-label">Based in Bengaluru, India</div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-tag">// What We Do</div>
+  <h2>End-to-End<br>Assembly Services</h2>
+  <p class="section-desc">From bare boards to fully tested assemblies. We handle the entire PCB assembly process so you can focus on building your product.</p>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">🔧</div>
+      <h3>SMT Assembly</h3>
+      <p>Surface mount technology placement and reflow for fine-pitch components. Precise, reliable, and repeatable results on every run.</p>
     </div>
-
-    <!-- @@@@@@@@@@@ branch cards styling @@@@@@@@@@@@ -->
-    <div class="main-b-container d-flex justify-content-around">
-        
-            <div class="b-container d-flex flex-column justify-content-end b-container1 " id="ece" >
-                <div class="content-container">
-                    <h1>ECE</h1>
-                    <p>Electronics and Communication Engineering</p>
-                </div>
-            </div>
-        
-            <div class="b-container d-flex flex-column justify-content-end b-container5" id="cse">
-                <div class="content-container">
-                    <h1>CSE</h1>
-                    <p>Computer Science Engineering</p>
-                </div>
-            </div>
-            
-        
+    <div class="service-card">
+      <div class="service-icon">🔩</div>
+      <h3>THT Assembly</h3>
+      <p>Through-hole component soldering for connectors, capacitors, and legacy components. Manual and wave solder capable.</p>
     </div>
-
-
-    <div class="main-b-container d-flex justify-content-around">
-        <div class="b-container d-flex flex-column justify-content-end b-container3" id="eee">
-            <div class="content-container">
-                <h1>EEE</h1>
-                <p>Electrical and Electronics Engineering</p>
-            </div>
-        </div>
-    
-        <div class="b-container d-flex flex-column justify-content-end b-container4" id="bme">
-            <div class="content-container">
-                <h1>BME</h1>
-                <p>Biomedical Engineering</p>
-            </div>
-        </div>
+    <div class="service-card">
+      <div class="service-icon">🛠️</div>
+      <h3>Prototype Runs</h3>
+      <p>Starting from just 3 PCBs — perfect for R&D, validation, and proof-of-concept builds without committing to large volumes.</p>
     </div>
-
-    <div class="main-b-container d-flex justify-content-around">
-    
-        <div class="b-container d-flex flex-column justify-content-end b-container2" id="civil">
-            <div class="content-container">
-                <h1>CIVIL</h1>
-                <p>Construction investigation Engineering</p>
-            </div>
-        </div>
-
-        <div class="b-container d-flex flex-column justify-content-end b-container6" id="mech">
-            <div class="content-container">
-                <h1>MECH</h1>
-                <p>Mechanical Engineering</p>
-            </div>
-        </div>
+    <div class="service-card">
+      <div class="service-icon">🔍</div>
+      <h3>Inspection & Testing</h3>
+      <p>Visual inspection and basic functional checks to catch defects before they reach your hands. Quality you can trust.</p>
     </div>
+    <div class="service-card">
+      <div class="service-icon">📦</div>
+      <h3>Component Sourcing</h3>
+      <p>Don't have parts? We can help source components locally or assist with BOM review to keep your project moving.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📐</div>
+      <h3>Rework & Repair</h3>
+      <p>Fix existing boards, replace components, and correct assembly errors — we rework what others can't.</p>
+    </div>
+  </div>
+</section>
 
-    <!-- @@@@@@@@@@@ footer styling @@@@@@@@@@@@@ -->
+<!-- HOW IT WORKS -->
+<section id="process">
+  <div class="section-tag">// Process</div>
+  <h2>Simple. Fast.<br>No Surprises.</h2>
+  <p class="section-desc">A streamlined process to get your boards assembled with the least friction possible.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Send Us Your Files</h3>
+      <p>Share your Gerber files, BOM, and assembly drawings (pick & place if available). We'll review within 24 hours.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>Get a Quote</h3>
+      <p>We'll send you a detailed quote based on quantity, component complexity, and your required timeline.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>Confirm & Schedule</h3>
+      <p>Approve the quote, ship us your bare PCBs and components (or we source them), and we lock in your slot.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h3>Assembly & Delivery</h3>
+      <p>We assemble, inspect, and deliver your boards in Bengaluru — or coordinate shipping to your location.</p>
+    </div>
+  </div>
+</section>
 
-    
-    <footer class="main-container d-flex justify-content-center">
-        <div class="f-content">
-            <h5 class="f-content-h5"> © Copyright</h5>
-            <p class="f-content-p">-Developed <a href="https://www.instagram.com/reddaiah038/">Reddaiah</a></p>
+<!-- PRICING -->
+<section id="pricing">
+  <div class="section-tag">// Pricing Tiers</div>
+  <h2>Flexible Quantities,<br>Fair Pricing</h2>
+  <p class="section-desc">Pricing depends on quantity, component count, and timeline. Contact us for an exact quote — no hidden fees.</p>
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <h3>Prototype</h3>
+      <div class="pricing-range">3 – 10 boards</div>
+      <ul>
+        <li>Min. 3 PCBs per order</li>
+        <li>SMT & THT support</li>
+        <li>Standard lead time</li>
+        <li>Visual inspection included</li>
+        <li>Ideal for R&D and testing</li>
+      </ul>
+      <a href="#contact" class="btn-outline">Get Quote</a>
+    </div>
+    <div class="pricing-card featured">
+      <div class="badge">Most Popular</div>
+      <h3>Small Batch</h3>
+      <div class="pricing-range">10 – 100 boards</div>
+      <ul>
+        <li>Volume discount applies</li>
+        <li>SMT + THT mixed assembly</li>
+        <li>Priority scheduling available</li>
+        <li>Inspection & basic testing</li>
+        <li>Pilot run before full batch</li>
+      </ul>
+      <a href="#contact" class="btn-primary">Get Quote</a>
+    </div>
+    <div class="pricing-card">
+      <h3>Production</h3>
+      <div class="pricing-range">100+ boards</div>
+      <ul>
+        <li>Timeline-based capacity</li>
+        <li>Best per-unit pricing</li>
+        <li>Dedicated project manager</li>
+        <li>Full QC process</li>
+        <li>Discuss requirements first</li>
+      </ul>
+      <a href="#contact" class="btn-outline">Let's Talk</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-tag">// Contact</div>
+  <h2>Start Your<br>Project Today</h2>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <p>Ready to get your PCBs assembled? Send us your project details and we'll get back to you with a quote within 24 hours.</p>
+      <div class="contact-item">
+        <div class="contact-item-icon">📍</div>
+        <div class="contact-item-text">
+          <strong>Location</strong>
+          Bengaluru, Karnataka, India
         </div>
-    </footer>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">⚡</div>
+        <div class="contact-item-text">
+          <strong>Minimum Order</strong>
+          3 PCBs per order
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">📅</div>
+        <div class="contact-item-text">
+          <strong>Lead Time</strong>
+          Based on quantity & complexity — discuss with us
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">✉️</div>
+        <div class="contact-item-text">
+          <strong>Email</strong>
+          hello@arunatechlabs.in
+        </div>
+      </div>
+    </div>
+    <form onsubmit="handleSubmit(event)">
+      <input type="text" placeholder="Your Name" required />
+      <input type="email" placeholder="Email Address" required />
+      <input type="text" placeholder="Company / Project Name" />
+      <select>
+        <option value="" disabled selected>Quantity Range</option>
+        <option>3 – 10 boards (Prototype)</option>
+        <option>10 – 100 boards (Small Batch)</option>
+        <option>100+ boards (Production)</option>
+        <option>Not sure yet</option>
+      </select>
+      <textarea placeholder="Describe your project — component count, layer stackup, timeline, any special requirements..."></textarea>
+      <button type="submit" class="btn-primary">Send Inquiry →</button>
+    </form>
+  </div>
+</section>
 
-    <script src="javascript.js"></script>
+<!-- FOOTER -->
+<footer>
+  <div class="logo">Aruna<span style="color:var(--green)">TechLabs</span></div>
+  <div>PCB Assembly · Bengaluru, India</div>
+  <div>© 2024 ArUnaTechLabs. All rights reserved.</div>
+</footer>
+
+<script>
+  // Glow cursor
+  const glow = document.getElementById('glow');
+  document.addEventListener('mousemove', e => {
+    glow.style.left = e.clientX + 'px';
+    glow.style.top = e.clientY + 'px';
+  });
+
+  // Form submit
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
+    btn.textContent = '✓ Inquiry Sent!';
+    btn.style.background = '#00cc6a';
+    setTimeout(() => {
+      btn.textContent = 'Send Inquiry →';
+      btn.style.background = '';
+      e.target.reset();
+    }, 3000);
+  }
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.service-card, .step, .pricing-card, .stat').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+</script>
 </body>
-
 </html>
