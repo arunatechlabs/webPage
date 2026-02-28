@@ -4,769 +4,1140 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ArUnaTechLabs – PCB Assembly Bangalore</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0a0a0f;
-    --surface: #111118;
-    --green: #00ff88;
-    --green-dim: #00cc6a;
-    --amber: #ffb800;
-    --white: #f0ede8;
-    --grey: #444;
-    --text-muted: #888;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #060810;
+  --bg2: #0c0f1a;
+  --surface: #0f1220;
+  --surface2: #161929;
+  --green: #0dffb0;
+  --green2: #00d48a;
+  --blue: #3b82f6;
+  --white: #eef2ff;
+  --muted: #5a6380;
+  --muted2: #8892b0;
+  --border: rgba(13,255,176,0.12);
+  --border2: rgba(13,255,176,0.06);
+}
 
-  html { scroll-behavior: smooth; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 
-  body {
-    background: var(--bg);
-    color: var(--white);
-    font-family: 'DM Mono', monospace;
-    overflow-x: hidden;
-  }
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'Outfit', sans-serif;
+  overflow-x: hidden;
+}
 
-  /* GRID BACKGROUND */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(0,255,136,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,255,136,0.04) 1px, transparent 1px);
-    background-size: 48px 48px;
-    pointer-events: none;
-    z-index: 0;
-  }
+/* GRID BG - pointer-events none so it never blocks anything */
+.grid-bg {
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(13,255,176,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(13,255,176,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
 
-  /* NAV */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 48px;
-    background: rgba(10,10,15,0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(0,255,136,0.08);
-  }
-  .logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 1.25rem;
-    letter-spacing: -0.02em;
-  }
-  .logo span { color: var(--green); }
-  nav ul {
-    list-style: none;
-    display: flex;
-    gap: 36px;
-  }
-  nav ul a {
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 0.78rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-  nav ul a:hover { color: var(--green); }
-  .nav-cta {
-    background: var(--green);
-    color: #000 !important;
-    padding: 9px 20px;
-    border-radius: 4px;
-    font-weight: 500;
-  }
-  .nav-cta:hover { background: var(--green-dim) !important; color: #000 !important; }
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 52px; height: 68px;
+  background: rgba(6,8,16,0.9);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border2);
+}
+.logo-wrap { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.logo-icon {
+  width: 34px; height: 34px;
+  border: 1.5px solid var(--green); border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(13,255,176,0.06);
+}
+.logo-icon svg { width: 18px; height: 18px; stroke: var(--green); }
+.logo-text { font-family: 'Bebas Neue', sans-serif; font-size: 1.45rem; letter-spacing: 0.05em; color: var(--white); }
+.logo-text span { color: var(--green); }
+nav ul { list-style: none; display: flex; gap: 4px; }
+nav ul a {
+  color: var(--muted2); text-decoration: none;
+  font-size: 0.78rem; padding: 8px 13px; border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  transition: color 0.2s, background 0.2s;
+}
+nav ul a:hover { color: var(--green); background: rgba(13,255,176,0.08); }
+.nav-cta { background: var(--green) !important; color: #000 !important; font-weight: 600 !important; }
+.nav-cta:hover { background: var(--green2) !important; color: #000 !important; }
+.nav-hamburger { display: none; background: none; border: none; color: var(--white); font-size: 1.4rem; cursor: pointer; }
 
-  /* HERO */
-  .hero {
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 120px 48px 80px;
-    z-index: 1;
-  }
-  .hero-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.72rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--green);
-    margin-bottom: 32px;
-  }
-  .hero-tag::before {
-    content: '';
-    width: 28px; height: 1px;
-    background: var(--green);
-  }
-  h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(3rem, 8vw, 7rem);
-    font-weight: 800;
-    line-height: 0.95;
-    letter-spacing: -0.03em;
-    max-width: 900px;
-    margin-bottom: 32px;
-  }
-  h1 em {
-    font-style: normal;
-    color: var(--green);
-  }
-  .hero-sub {
-    font-size: 1rem;
-    color: var(--text-muted);
-    max-width: 520px;
-    line-height: 1.7;
-    margin-bottom: 48px;
-  }
-  .hero-sub strong { color: var(--white); }
-  .hero-actions {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-  .btn-primary {
-    background: var(--green);
-    color: #000;
-    padding: 14px 32px;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.85rem;
-    font-weight: 500;
-    letter-spacing: 0.05em;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    text-decoration: none;
-    transition: transform 0.15s, background 0.2s;
-  }
-  .btn-primary:hover { background: var(--green-dim); transform: translateY(-2px); }
-  .btn-outline {
-    background: transparent;
-    color: var(--white);
-    padding: 14px 32px;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.85rem;
-    border: 1px solid var(--grey);
-    border-radius: 4px;
-    cursor: pointer;
-    text-decoration: none;
-    transition: border-color 0.2s, color 0.2s;
-  }
-  .btn-outline:hover { border-color: var(--green); color: var(--green); }
+/* ── HERO ── */
+.hero {
+  position: relative; z-index: 1;
+  min-height: 100vh;
+  display: grid; grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 110px 52px 80px; gap: 60px;
+}
+.hero-glow {
+  position: absolute; pointer-events: none;
+  width: 650px; height: 650px;
+  background: radial-gradient(circle, rgba(13,255,176,0.07) 0%, transparent 65%);
+  top: 50%; left: 35%; transform: translate(-50%, -50%);
+}
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--green);
+  background: rgba(13,255,176,0.08); border: 1px solid var(--border);
+  padding: 7px 14px; border-radius: 20px; margin-bottom: 28px;
+}
+.pulse-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--green);
+  animation: pulseDot 2s infinite;
+}
+@keyframes pulseDot { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.4; transform:scale(0.7); } }
 
-  /* PCB CIRCUIT DECORATION */
-  .hero-deco {
-    position: absolute;
-    right: 48px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: min(420px, 40vw);
-    opacity: 0.18;
-    pointer-events: none;
-  }
+h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(4rem, 6.5vw, 7.5rem);
+  line-height: 0.9; letter-spacing: 0.02em; margin-bottom: 24px;
+}
+h1 .outline { -webkit-text-stroke: 1.5px var(--green); color: transparent; }
+h1 .accent  { color: var(--green); }
 
-  /* STATS STRIP */
-  .stats {
-    position: relative;
-    z-index: 1;
-    border-top: 1px solid rgba(0,255,136,0.1);
-    border-bottom: 1px solid rgba(0,255,136,0.1);
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    background: var(--surface);
-  }
-  .stat {
-    padding: 36px 48px;
-    border-right: 1px solid rgba(0,255,136,0.1);
-  }
-  .stat:last-child { border-right: none; }
-  .stat-num {
-    font-family: 'Syne', sans-serif;
-    font-size: 2.8rem;
-    font-weight: 800;
-    color: var(--green);
-    line-height: 1;
-    margin-bottom: 8px;
-  }
-  .stat-label {
-    font-size: 0.72rem;
-    color: var(--text-muted);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
+.hero-sub {
+  font-size: 1rem; font-weight: 300; color: var(--muted2);
+  line-height: 1.8; max-width: 460px; margin-bottom: 38px;
+}
+.hero-sub strong { color: var(--white); font-weight: 500; }
 
-  /* SECTIONS */
-  section {
-    position: relative;
-    z-index: 1;
-    padding: 100px 48px;
-  }
-  .section-tag {
-    font-size: 0.68rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--green);
-    margin-bottom: 16px;
-  }
-  h2 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(2rem, 4vw, 3.5rem);
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    line-height: 1.05;
-    margin-bottom: 24px;
-  }
-  .section-desc {
-    color: var(--text-muted);
-    font-size: 0.95rem;
-    line-height: 1.75;
-    max-width: 560px;
-    margin-bottom: 64px;
-  }
+.hero-btns { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 44px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; font-weight: 500;
+  padding: 13px 24px; border-radius: 8px; text-decoration: none; border: none;
+  cursor: pointer; transition: all 0.2s; letter-spacing: 0.04em;
+}
+.btn-green { background: var(--green); color: #000; }
+.btn-green:hover { background: var(--green2); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(13,255,176,0.25); }
+.btn-outline { background: transparent; color: var(--white); border: 1px solid var(--muted); }
+.btn-outline:hover { border-color: var(--green); color: var(--green); }
 
-  /* SERVICES */
-  .services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 2px;
-  }
-  .service-card {
-    background: var(--surface);
-    padding: 40px 36px;
-    border: 1px solid rgba(0,255,136,0.07);
-    transition: border-color 0.25s, transform 0.25s;
-    position: relative;
-    overflow: hidden;
-  }
-  .service-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--green);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s;
-  }
-  .service-card:hover::before { transform: scaleX(1); }
-  .service-card:hover { border-color: rgba(0,255,136,0.25); transform: translateY(-4px); }
-  .service-icon {
-    font-size: 2rem;
-    margin-bottom: 20px;
-  }
-  .service-card h3 {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.15rem;
-    font-weight: 700;
-    margin-bottom: 12px;
-  }
-  .service-card p {
-    font-size: 0.82rem;
-    color: var(--text-muted);
-    line-height: 1.7;
-  }
+.hero-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip {
+  display: flex; align-items: center; gap: 6px;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+  color: var(--muted2); padding: 5px 12px;
+  background: var(--surface); border: 1px solid var(--border2); border-radius: 6px;
+}
+.chip span { color: var(--green); font-weight: 500; }
 
-  /* HOW IT WORKS */
-  #process { background: var(--surface); }
-  .steps {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 0;
-    counter-reset: steps;
-    margin-top: 0;
-  }
-  .step {
-    padding: 40px 32px;
-    border-right: 1px solid rgba(0,255,136,0.08);
-    position: relative;
-    counter-increment: steps;
-  }
-  .step:last-child { border-right: none; }
-  .step-num {
-    font-family: 'Syne', sans-serif;
-    font-size: 3rem;
-    font-weight: 800;
-    color: rgba(0,255,136,0.15);
-    line-height: 1;
-    margin-bottom: 16px;
-  }
-  .step h3 {
-    font-family: 'Syne', sans-serif;
-    font-size: 1rem;
-    font-weight: 700;
-    margin-bottom: 10px;
-    color: var(--white);
-  }
-  .step p {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    line-height: 1.7;
-  }
+/* PCB SVG */
+.hero-visual { position: relative; display: flex; align-items: center; justify-content: center; }
+.pcb-wrap { position: relative; width: 100%; max-width: 480px; }
+.pcb-glow-ring {
+  position: absolute; inset: -40px;
+  background: radial-gradient(circle, rgba(13,255,176,0.1) 0%, transparent 65%);
+  animation: glowPulse 3.5s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes glowPulse { 0%,100% { opacity:0.6; } 50% { opacity:1; } }
+.pcb-svg { width: 100%; animation: floatPCB 6s ease-in-out infinite; }
+@keyframes floatPCB { 0%,100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-14px) rotate(1deg); } }
+.tr { stroke-dasharray: 300; stroke-dashoffset: 300; animation: drawTrace 1.5s ease forwards; }
+.tr:nth-child(1){animation-delay:0.2s} .tr:nth-child(2){animation-delay:0.6s}
+.tr:nth-child(3){animation-delay:1s}   .tr:nth-child(4){animation-delay:1.3s}
+@keyframes drawTrace { to { stroke-dashoffset: 0; } }
+.blink { animation: compBlink 2.2s ease-in-out infinite; }
+@keyframes compBlink { 0%,100%{opacity:0.35} 50%{opacity:1} }
 
-  /* PRICING */
-  .pricing-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px;
-  }
-  .pricing-card {
-    background: var(--surface);
-    border: 1px solid rgba(0,255,136,0.1);
-    padding: 44px 36px;
-    border-radius: 6px;
-    position: relative;
-  }
-  .pricing-card.featured {
-    border-color: var(--green);
-    background: rgba(0,255,136,0.04);
-  }
-  .badge {
-    position: absolute;
-    top: -12px; left: 36px;
-    background: var(--green);
-    color: #000;
-    font-size: 0.65rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 4px 12px;
-    border-radius: 20px;
-  }
-  .pricing-card h3 {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.3rem;
-    font-weight: 700;
-    margin-bottom: 8px;
-  }
-  .pricing-range {
-    color: var(--green);
-    font-size: 0.85rem;
-    margin-bottom: 24px;
-    letter-spacing: 0.05em;
-  }
-  .pricing-card ul {
-    list-style: none;
-    margin-bottom: 32px;
-  }
-  .pricing-card ul li {
-    font-size: 0.82rem;
-    color: var(--text-muted);
-    padding: 8px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .pricing-card ul li::before {
-    content: '→';
-    color: var(--green);
-    flex-shrink: 0;
-  }
+/* ── TICKER ── */
+.ticker-wrap {
+  position: relative; z-index: 1;
+  overflow: hidden; padding: 13px 0;
+  background: var(--surface);
+  border-top: 1px solid var(--border2); border-bottom: 1px solid var(--border2);
+}
+.ticker { display: flex; animation: tickerMove 22s linear infinite; white-space: nowrap; }
+.ticker-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 0 32px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem; color: var(--muted2); text-transform: uppercase; letter-spacing: 0.1em;
+}
+.ticker-item .sep { color: var(--green); }
+@keyframes tickerMove { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
-  /* CONTACT */
-  #contact { background: var(--surface); }
-  .contact-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: start;
-  }
-  .contact-info h3 {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-bottom: 8px;
-  }
-  .contact-info p {
-    font-size: 0.82rem;
-    color: var(--text-muted);
-    line-height: 1.7;
-    margin-bottom: 32px;
-  }
-  .contact-item {
-    display: flex;
-    gap: 16px;
-    align-items: flex-start;
-    margin-bottom: 24px;
-  }
-  .contact-item-icon {
-    color: var(--green);
-    font-size: 1.1rem;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-  .contact-item-text {
-    font-size: 0.82rem;
-    color: var(--text-muted);
-    line-height: 1.6;
-  }
-  .contact-item-text strong { color: var(--white); display: block; margin-bottom: 2px; }
+/* ── STATS ── */
+.stats-section { position: relative; z-index: 1; padding: 72px 52px; }
+.stats-grid {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  gap: 2px; border-radius: 12px; overflow: hidden;
+  border: 1px solid var(--border2); background: var(--border2);
+}
+.stat-card {
+  background: var(--surface); padding: 40px 32px;
+  position: relative; overflow: hidden; transition: background 0.3s;
+}
+.stat-card:hover { background: var(--surface2); }
+.stat-card::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--green), transparent);
+  transform: scaleX(0); transform-origin: left; transition: transform 0.4s;
+}
+.stat-card:hover::after { transform: scaleX(1); }
+.stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 3.2rem; color: var(--green); line-height: 1; margin-bottom: 6px; }
+.stat-label { font-size: 0.78rem; color: var(--muted2); line-height: 1.5; }
+.stat-sub { font-size: 0.65rem; color: var(--muted); margin-top: 4px; font-family: 'JetBrains Mono', monospace; }
 
-  form { display: flex; flex-direction: column; gap: 16px; }
-  input, textarea, select {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid var(--grey);
-    color: var(--white);
-    font-family: 'DM Mono', monospace;
-    font-size: 0.82rem;
-    padding: 14px 18px;
-    border-radius: 4px;
-    outline: none;
-    transition: border-color 0.2s;
-    width: 100%;
-  }
-  input:focus, textarea:focus, select:focus { border-color: var(--green); }
-  select option { background: var(--bg); }
-  textarea { resize: vertical; min-height: 120px; }
-  ::placeholder { color: var(--grey); }
+/* ── SECTION BASE ── */
+.section { position: relative; z-index: 1; padding: 90px 52px; }
+.section-alt { background: var(--bg2); }
+.s-tag {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.66rem;
+  color: var(--green); letter-spacing: 0.2em; text-transform: uppercase;
+  margin-bottom: 14px; display: flex; align-items: center; gap: 10px;
+}
+.s-tag::before { content: ''; width: 18px; height: 1px; background: var(--green); }
+h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.4rem, 4vw, 4.2rem); line-height: 1; letter-spacing: 0.02em; margin-bottom: 18px;
+}
+.s-desc { font-size: 0.92rem; color: var(--muted2); line-height: 1.8; max-width: 520px; margin-bottom: 56px; }
 
-  /* FOOTER */
-  footer {
-    position: relative;
-    z-index: 1;
-    border-top: 1px solid rgba(0,255,136,0.08);
-    padding: 32px 48px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.75rem;
-    color: var(--text-muted);
-  }
-  footer .logo { font-size: 0.95rem; }
+/* ── SERVICES ── */
+.services-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+.svc-card {
+  background: var(--surface); border: 1px solid var(--border2); border-radius: 12px;
+  padding: 34px 30px; position: relative; overflow: hidden;
+  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+.svc-card:hover {
+  transform: translateY(-5px); border-color: rgba(13,255,176,0.3);
+  box-shadow: 0 16px 50px rgba(0,0,0,0.4), 0 0 30px rgba(13,255,176,0.05);
+}
+.svc-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 0px;
+  background: rgba(13,255,176,0.03); transition: height 0.3s;
+}
+.svc-card:hover::before { height: 100%; }
+.svc-icon {
+  width: 48px; height: 48px; border-radius: 10px;
+  background: rgba(13,255,176,0.08); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem; margin-bottom: 20px; position: relative;
+}
+.svc-card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 10px; }
+.svc-card p { font-size: 0.8rem; color: var(--muted2); line-height: 1.75; }
+.svc-tag {
+  display: inline-block; margin-top: 16px;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.62rem;
+  color: var(--green); background: rgba(13,255,176,0.08);
+  border: 1px solid var(--border); padding: 3px 9px; border-radius: 20px;
+}
 
-  /* ANIMATIONS */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .hero-tag, h1, .hero-sub, .hero-actions {
-    animation: fadeUp 0.7s ease both;
-  }
-  .hero-tag { animation-delay: 0.1s; }
-  h1 { animation-delay: 0.2s; }
-  .hero-sub { animation-delay: 0.35s; }
-  .hero-actions { animation-delay: 0.5s; }
+/* ── PROCESS ── */
+.process-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; position: relative; }
+.process-grid::before {
+  content: ''; position: absolute; top: 35px; left: 12%; right: 12%; height: 1px;
+  background: linear-gradient(90deg, var(--green), rgba(13,255,176,0.15));
+}
+.process-step { padding: 0 20px; }
+.step-circle {
+  width: 70px; height: 70px; border-radius: 50%;
+  background: var(--surface2); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 24px; position: relative; z-index: 1;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.process-step:hover .step-circle { border-color: var(--green); box-shadow: 0 0 24px rgba(13,255,176,0.2); }
+.step-num { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--green); }
+.process-step h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 8px; }
+.process-step p { font-size: 0.78rem; color: var(--muted2); line-height: 1.7; }
 
-  /* GLOW CURSOR */
-  .glow {
-    position: fixed;
-    width: 300px; height: 300px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(0,255,136,0.06) 0%, transparent 70%);
-    pointer-events: none;
-    transform: translate(-50%, -50%);
-    transition: left 0.1s, top 0.1s;
-    z-index: 0;
-  }
+/* ── PRICING ── */
+.pricing-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+.price-card {
+  background: var(--surface); border: 1px solid var(--border2);
+  border-radius: 14px; padding: 40px 32px; position: relative;
+  overflow: hidden; transition: transform 0.3s;
+}
+.price-card:hover { transform: translateY(-4px); }
+.price-card.featured {
+  background: linear-gradient(135deg, rgba(13,255,176,0.06), rgba(13,255,176,0.01));
+  border-color: rgba(13,255,176,0.4);
+  box-shadow: 0 0 50px rgba(13,255,176,0.07);
+}
+.price-card.featured:hover { box-shadow: 0 16px 50px rgba(13,255,176,0.14); }
+.pop-badge {
+  position: absolute; top: 18px; right: -30px;
+  background: var(--green); color: #000;
+  font-size: 0.58rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 5px 38px; transform: rotate(45deg);
+}
+.price-tier { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--green); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 10px; }
+.price-card h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.9rem; letter-spacing: 0.03em; margin-bottom: 4px; }
+.price-range { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--muted2); margin-bottom: 28px; padding-bottom: 28px; border-bottom: 1px solid var(--border2); }
+.price-range strong { color: var(--green); }
+.price-features { list-style: none; margin-bottom: 32px; }
+.price-features li {
+  font-size: 0.8rem; color: var(--muted2);
+  padding: 9px 0; border-bottom: 1px solid var(--border2);
+  display: flex; align-items: center; gap: 10px;
+}
+.price-features li:last-child { border-bottom: none; }
+.check-dot {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: rgba(13,255,176,0.1);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.check-dot svg { width: 10px; height: 10px; stroke: var(--green); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-  @media(max-width: 768px) {
-    nav { padding: 16px 24px; }
-    nav ul { display: none; }
-    .hero { padding: 100px 24px 60px; }
-    .hero-deco { display: none; }
-    .stats { grid-template-columns: 1fr; }
-    .stat { border-right: none; border-bottom: 1px solid rgba(0,255,136,0.1); }
-    section { padding: 70px 24px; }
-    .contact-grid { grid-template-columns: 1fr; gap: 48px; }
-    footer { flex-direction: column; gap: 12px; text-align: center; }
-  }
+/* ── WHY US ── */
+.why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+.why-items { display: flex; flex-direction: column; gap: 20px; }
+.why-item {
+  display: flex; gap: 18px; align-items: flex-start;
+  padding: 22px; border-radius: 10px;
+  border: 1px solid var(--border2); background: var(--surface);
+  transition: border-color 0.3s;
+}
+.why-item:hover { border-color: rgba(13,255,176,0.25); }
+.why-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: rgba(13,255,176,0.18); line-height: 1; flex-shrink: 0; }
+.why-text h4 { font-size: 0.92rem; font-weight: 600; margin-bottom: 5px; }
+.why-text p { font-size: 0.78rem; color: var(--muted2); line-height: 1.7; }
+.spec-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 26px; font-family: 'JetBrains Mono', monospace; }
+.spec-head { font-size: 0.66rem; color: var(--muted2); letter-spacing: 0.12em; margin-bottom: 18px; }
+.spec-row { display: flex; justify-content: space-between; padding: 11px 0; border-bottom: 1px solid var(--border2); font-size: 0.76rem; }
+.spec-row:last-of-type { border-bottom: none; }
+.spec-k { color: var(--muted2); }
+.spec-v { color: var(--green); font-weight: 500; }
+.cap-label { font-size: 0.68rem; color: var(--muted2); margin: 18px 0 6px; }
+.cap-bar { height: 4px; background: var(--border2); border-radius: 2px; overflow: hidden; }
+.cap-fill { height: 100%; background: linear-gradient(90deg, var(--green), var(--blue)); border-radius: 2px; animation: barGrow 1.5s ease forwards; }
+@keyframes barGrow { from{width:0} }
+.accepting-tag { margin-top: 18px; font-size: 0.63rem; color: var(--green); }
+
+/* ── CONTACT ── */
+.contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 72px; align-items: start; }
+.contact-info h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.03em; margin-bottom: 10px; }
+.contact-info > p { font-size: 0.83rem; color: var(--muted2); line-height: 1.8; margin-bottom: 36px; }
+.c-item { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 22px; }
+.c-icon { width: 38px; height: 38px; background: rgba(13,255,176,0.08); border: 1px solid var(--border); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.95rem; }
+.c-text strong { font-size: 0.78rem; font-weight: 600; display: block; margin-bottom: 2px; }
+.c-text span { font-size: 0.76rem; color: var(--muted2); font-family: 'JetBrains Mono', monospace; }
+.guarantee-box { margin-top: 36px; background: rgba(13,255,176,0.04); border: 1px solid var(--border); border-radius: 10px; padding: 18px 22px; }
+.guarantee-box p { font-size: 0.76rem; color: var(--muted2); line-height: 1.7; }
+.guarantee-box strong { color: var(--green); }
+
+/* FORM CARD */
+.form-card { background: var(--surface); border: 1px solid var(--border2); border-radius: 14px; padding: 40px 36px; }
+.form-card h3 { font-size: 1.08rem; font-weight: 600; margin-bottom: 24px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+.form-group label { font-size: 0.68rem; color: var(--muted2); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; }
+input, textarea, select {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border2);
+  color: var(--white); font-family: 'Outfit', sans-serif; font-size: 0.86rem;
+  padding: 12px 14px; border-radius: 8px; outline: none; width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: rgba(13,255,176,0.5);
+  box-shadow: 0 0 0 3px rgba(13,255,176,0.07);
+}
+select option { background: #0f1220; }
+textarea { resize: vertical; min-height: 100px; }
+::placeholder { color: var(--muted); }
+
+/* LEAD TIME */
+.lt-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+.lt-opt { position: relative; }
+.lt-opt input[type=radio] { position: absolute; opacity: 0; width: 0; height: 0; }
+.lt-opt label {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 12px 8px; border: 1px solid var(--border2); border-radius: 8px;
+  background: rgba(255,255,255,0.02); cursor: pointer;
+  transition: border-color 0.2s, background 0.2s; text-align: center;
+}
+.lt-opt label:hover { border-color: rgba(13,255,176,0.3); background: rgba(13,255,176,0.04); }
+.lt-opt input[type=radio]:checked + label { border-color: var(--green); background: rgba(13,255,176,0.08); box-shadow: 0 0 14px rgba(13,255,176,0.1); }
+.lt-emoji { font-size: 1.2rem; }
+.lt-name { font-size: 0.8rem; font-weight: 600; color: var(--white); }
+.lt-days { font-size: 0.66rem; color: var(--muted2); font-family: 'JetBrains Mono', monospace; }
+.lt-opt input[type=radio]:checked + label .lt-days { color: var(--green); }
+
+/* FILE UPLOAD */
+.upload-zone {
+  border: 1.5px dashed rgba(13,255,176,0.25); border-radius: 10px;
+  padding: 26px 18px; text-align: center;
+  background: rgba(13,255,176,0.015);
+  transition: border-color 0.25s, background 0.25s;
+  position: relative;
+}
+.upload-zone.drag { border-color: var(--green); background: rgba(13,255,176,0.06); }
+.upload-zone.has-files { border-color: rgba(13,255,176,0.5); border-style: solid; }
+.upload-zone input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; z-index: 2; }
+.upload-icon { width: 42px; height: 42px; background: rgba(13,255,176,0.1); border: 1px solid var(--border); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; pointer-events: none; }
+.upload-icon svg { width: 20px; height: 20px; stroke: var(--green); fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.5; pointer-events: none; }
+.upload-zone .uz-text { font-size: 0.8rem; color: var(--muted2); margin-bottom: 3px; pointer-events: none; }
+.upload-zone .uz-text strong { color: var(--white); }
+.upload-zone small { font-size: 0.66rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; pointer-events: none; }
+.file-list { margin-top: 14px; display: flex; flex-direction: column; gap: 7px; position: relative; z-index: 3; }
+.file-item {
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border2);
+  border-radius: 6px; padding: 8px 12px; text-align: left;
+}
+.file-name { display: flex; align-items: center; gap: 8px; font-size: 0.76rem; color: var(--muted2); overflow: hidden; }
+.file-name em { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-style: normal; max-width: 200px; }
+.file-size { font-size: 0.65rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; margin-right: 6px; }
+.file-remove { background: rgba(255,80,80,0.1); border: 1px solid rgba(255,80,80,0.2); color: #ff6060; border-radius: 4px; padding: 2px 7px; font-size: 0.7rem; cursor: pointer; transition: background 0.2s; flex-shrink: 0; }
+.file-remove:hover { background: rgba(255,80,80,0.25); }
+
+/* SUBMIT BUTTON */
+.btn-submit {
+  width: 100%; background: var(--green); color: #000;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.88rem; font-weight: 600;
+  padding: 15px; border: none; border-radius: 8px; cursor: pointer;
+  transition: all 0.2s; display: flex; align-items: center; justify-content: center;
+  gap: 10px; letter-spacing: 0.05em; margin-top: 6px;
+}
+.btn-submit:hover { background: var(--green2); box-shadow: 0 8px 28px rgba(13,255,176,0.28); transform: translateY(-1px); }
+.btn-submit:disabled { opacity: 0.6; pointer-events: none; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── MODAL ── */
+.modal-bg {
+  position: fixed; inset: 0; z-index: 999;
+  background: rgba(6,8,16,0.88); backdrop-filter: blur(18px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.35s;
+}
+.modal-bg.open { opacity: 1; pointer-events: all; }
+.modal-box {
+  background: var(--surface); border: 1px solid rgba(13,255,176,0.35);
+  border-radius: 20px; padding: 52px 48px; max-width: 500px; width: 92%;
+  text-align: center; position: relative; overflow: hidden;
+  transform: scale(0.88) translateY(20px); opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.35s;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.6), 0 0 60px rgba(13,255,176,0.07);
+}
+.modal-bg.open .modal-box { transform: scale(1) translateY(0); opacity: 1; }
+.modal-close-x { position: absolute; top: 16px; right: 16px; width: 30px; height: 30px; background: var(--surface2); border: none; border-radius: 50%; color: var(--muted2); font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: color 0.2s; }
+.modal-close-x:hover { color: var(--white); }
+.modal-icon { width: 76px; height: 76px; border: 2px solid var(--green); background: rgba(13,255,176,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; animation: iconBounce 0.5s 0.2s cubic-bezier(0.34,1.56,0.64,1) both; }
+@keyframes iconBounce { from{transform:scale(0)} to{transform:scale(1)} }
+.modal-check { width: 34px; height: 34px; stroke: var(--green); stroke-width: 2.5; stroke-dasharray: 60; stroke-dashoffset: 60; fill: none; stroke-linecap: round; stroke-linejoin: round; animation: drawCheck 0.6s 0.5s ease forwards; }
+@keyframes drawCheck { to{stroke-dashoffset:0} }
+.modal-box h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2.4rem; letter-spacing: 0.04em; margin-bottom: 12px; }
+.modal-box > p { font-size: 0.86rem; color: var(--muted2); line-height: 1.7; margin-bottom: 6px; }
+.modal-ref { font-family: 'JetBrains Mono', monospace; font-size: 0.73rem; color: var(--green); background: rgba(13,255,176,0.08); border: 1px solid var(--border); padding: 7px 18px; border-radius: 6px; display: inline-block; margin: 16px 0 28px; }
+.modal-steps { text-align: left; margin-bottom: 30px; }
+.modal-step { display: flex; gap: 11px; align-items: flex-start; padding: 9px 0; border-bottom: 1px solid var(--border2); font-size: 0.78rem; }
+.modal-step:last-child { border-bottom: none; }
+.ms-icon { color: var(--green); flex-shrink: 0; }
+.ms-text { color: var(--muted2); line-height: 1.5; }
+.ms-text strong { color: var(--white); }
+.modal-close-btn { background: var(--green); color: #000; border: none; font-family: 'JetBrains Mono', monospace; font-size: 0.84rem; font-weight: 600; padding: 13px 36px; border-radius: 8px; cursor: pointer; transition: background 0.2s; letter-spacing: 0.05em; }
+.modal-close-btn:hover { background: var(--green2); }
+.confetti-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; border-radius: 20px; overflow: hidden; }
+.confetti-piece { position: absolute; border-radius: 2px; animation: confettiFall linear both; }
+@keyframes confettiFall { 0%{transform:translateY(-10px) rotate(0deg);opacity:1} 100%{transform:translateY(400px) rotate(720deg);opacity:0} }
+
+/* ── FOOTER ── */
+footer { position: relative; z-index: 1; background: var(--bg); border-top: 1px solid var(--border2); padding: 56px 52px 32px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 56px; margin-bottom: 44px; }
+.footer-brand p { font-size: 0.8rem; color: var(--muted2); line-height: 1.8; max-width: 280px; margin-top: 14px; }
+.footer-col h4 { font-family: 'JetBrains Mono', monospace; font-size: 0.66rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted2); margin-bottom: 16px; }
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 9px; }
+.footer-col ul a { text-decoration: none; font-size: 0.8rem; color: var(--muted2); transition: color 0.2s; }
+.footer-col ul a:hover { color: var(--green); }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 24px; border-top: 1px solid var(--border2); font-size: 0.72rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+.status-row { display: flex; align-items: center; gap: 7px; }
+.status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: pulseDot 2s infinite; }
+
+/* ── SCROLL REVEAL ── */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media(max-width: 1024px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-visual { display: none; }
+  .stats-grid { grid-template-columns: repeat(2,1fr); }
+  .services-grid { grid-template-columns: repeat(2,1fr); }
+  .process-grid { grid-template-columns: repeat(2,1fr); }
+  .process-grid::before { display: none; }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 500px; }
+  .why-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; gap: 44px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media(max-width: 768px) {
+  nav { padding: 0 20px; }
+  nav ul { display: none; }
+  nav ul.open { display: flex; flex-direction: column; position: fixed; top: 68px; left: 0; right: 0; background: rgba(6,8,16,0.98); padding: 20px; gap: 6px; border-bottom: 1px solid var(--border2); z-index: 99; }
+  .nav-hamburger { display: flex; }
+  .hero, .section, .stats-section { padding-left: 20px; padding-right: 20px; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .services-grid { grid-template-columns: 1fr; }
+  .process-grid { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 100%; }
+  .form-row { grid-template-columns: 1fr; }
+  .lt-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+  .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+  footer { padding: 40px 20px 24px; }
+  .form-card { padding: 28px 20px; }
+  .modal-box { padding: 36px 24px; }
+}
 </style>
 </head>
 <body>
 
-<div class="glow" id="glow"></div>
+<div class="grid-bg"></div>
+
+<!-- MODAL -->
+<div class="modal-bg" id="modal">
+  <div class="modal-box">
+    <div class="confetti-canvas" id="confetti"></div>
+    <button class="modal-close-x" onclick="closeModal()">✕</button>
+    <div class="modal-icon">
+      <svg class="modal-check" viewBox="0 0 48 48"><polyline points="10,26 20,36 38,16"/></svg>
+    </div>
+    <h2>Inquiry Received!</h2>
+    <p>Thank you for reaching out to <strong>ArUnaTechLabs</strong>.</p>
+    <p>Your request has been submitted successfully.</p>
+    <div class="modal-ref" id="modal-ref">REF: ATL-000000</div>
+    <div class="modal-steps">
+      <div class="modal-step"><span class="ms-icon">📧</span><div class="ms-text"><strong>Confirmation email</strong> will arrive in your inbox shortly.</div></div>
+      <div class="modal-step"><span class="ms-icon">🔍</span><div class="ms-text"><strong>Our team reviews</strong> your files and prepares a detailed quote.</div></div>
+      <div class="modal-step"><span class="ms-icon">⏱️</span><div class="ms-text"><strong>Response within 24 hours</strong> — via email or phone.</div></div>
+      <div class="modal-step"><span class="ms-icon">📍</span><div class="ms-text">Based in <strong>Bengaluru</strong> — in-person consultation available on request.</div></div>
+    </div>
+    <button class="modal-close-btn" onclick="closeModal()">Got it, thanks! →</button>
+  </div>
+</div>
 
 <!-- NAV -->
 <nav>
-  <div class="logo">Aruna<span>TechLabs</span></div>
-  <ul>
+  <a href="#" class="logo-wrap">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+        <path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/>
+      </svg>
+    </div>
+    <div class="logo-text">Aruna<span>Tech</span>Labs</div>
+  </a>
+  <ul id="nav-menu">
     <li><a href="#services">Services</a></li>
     <li><a href="#process">Process</a></li>
     <li><a href="#pricing">Pricing</a></li>
-    <li><a href="#contact" class="nav-cta">Get a Quote</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#contact" class="nav-cta">Get a Quote →</a></li>
   </ul>
+  <button class="nav-hamburger" onclick="toggleMenu()" id="hamburger">☰</button>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-tag">Bangalore, India · PCB Assembly</div>
-  <h1>Precision <em>PCB</em><br>Assembly,<br>Built Local.</h1>
-  <p class="hero-sub">
-    Professional PCB assembly services right here in <strong>Bengaluru</strong>. From prototype runs of just <strong>3 boards</strong> to full production batches — we scale with your timeline.
-  </p>
-  <div class="hero-actions">
-    <a href="#contact" class="btn-primary">Request a Quote →</a>
-    <a href="#process" class="btn-outline">How It Works</a>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-tag"><span class="pulse-dot"></span> Now Accepting Orders · Bengaluru, IN</div>
+    <h1>
+      <span class="outline">PCB</span><br>
+      Assembly<br>
+      <span class="accent">Experts.</span>
+    </h1>
+    <p class="hero-sub">
+      Professional PCB assembly in <strong>Bengaluru</strong>. Prototype runs from just <strong>3 boards</strong> up to <strong>10 boards</strong> — built with precision, delivered on time.
+    </p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn btn-green">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        Request a Quote
+      </a>
+      <a href="#process" class="btn btn-outline">How It Works</a>
+    </div>
+    <div class="hero-chips">
+      <div class="chip">Min. <span>3 PCBs</span></div>
+      <div class="chip">Max. <span>10 PCBs</span></div>
+      <div class="chip">SMT <span>+</span> THT</div>
+      <div class="chip">Local <span>BLR</span></div>
+    </div>
   </div>
 
-  <!-- SVG PCB decoration -->
-  <svg class="hero-deco" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="40" y="40" width="320" height="320" rx="8" stroke="#00ff88" stroke-width="1.5"/>
-    <rect x="70" y="70" width="260" height="260" rx="4" stroke="#00ff88" stroke-width="0.5"/>
-    <!-- traces -->
-    <path d="M100 200 H160 V140 H260" stroke="#00ff88" stroke-width="1.5"/>
-    <path d="M100 260 H200 V300" stroke="#00ff88" stroke-width="1.5"/>
-    <path d="M300 200 H340" stroke="#00ff88" stroke-width="1.5"/>
-    <path d="M200 100 V60" stroke="#00ff88" stroke-width="1.5"/>
-    <path d="M260 260 H300 V320" stroke="#00ff88" stroke-width="1.5"/>
-    <!-- pads -->
-    <circle cx="160" cy="200" r="6" fill="#00ff88"/>
-    <circle cx="260" cy="140" r="6" fill="#00ff88"/>
-    <circle cx="200" cy="260" r="6" fill="#00ff88"/>
-    <circle cx="300" cy="200" r="6" fill="#00ff88"/>
-    <!-- ICs -->
-    <rect x="160" y="155" width="80" height="50" rx="3" stroke="#00ff88" stroke-width="1.5"/>
-    <rect x="120" y="230" width="60" height="40" rx="3" stroke="#00ff88" stroke-width="1.5"/>
-    <!-- via holes -->
-    <circle cx="100" cy="200" r="4" stroke="#00ff88" stroke-width="1"/>
-    <circle cx="100" cy="260" r="4" stroke="#00ff88" stroke-width="1"/>
-    <circle cx="200" cy="100" r="4" stroke="#00ff88" stroke-width="1"/>
-    <circle cx="200" cy="300" r="4" stroke="#00ff88" stroke-width="1"/>
-    <circle cx="300" cy="320" r="4" stroke="#00ff88" stroke-width="1"/>
-    <!-- corner markers -->
-    <path d="M40 80 V40 H80" stroke="#00ff88" stroke-width="2"/>
-    <path d="M360 80 V40 H320" stroke="#00ff88" stroke-width="2"/>
-    <path d="M40 320 V360 H80" stroke="#00ff88" stroke-width="2"/>
-    <path d="M360 320 V360 H320" stroke="#00ff88" stroke-width="2"/>
-  </svg>
+  <div class="hero-visual">
+    <div class="pcb-wrap">
+      <div class="pcb-glow-ring"></div>
+      <svg class="pcb-svg" viewBox="0 0 480 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="30" y="30" width="420" height="420" rx="12" fill="#0d1a14" stroke="#0dffb0" stroke-width="1.5"/>
+        <rect x="50" y="50" width="380" height="380" rx="6" fill="none" stroke="rgba(13,255,176,0.1)" stroke-width="0.5"/>
+        <circle cx="72" cy="72" r="10" fill="none" stroke="#0dffb0" stroke-width="1"/>
+        <circle cx="72" cy="72" r="4" fill="rgba(13,255,176,0.3)"/>
+        <circle cx="408" cy="72" r="10" fill="none" stroke="#0dffb0" stroke-width="1"/>
+        <circle cx="408" cy="72" r="4" fill="rgba(13,255,176,0.3)"/>
+        <circle cx="72" cy="408" r="10" fill="none" stroke="#0dffb0" stroke-width="1"/>
+        <circle cx="72" cy="408" r="4" fill="rgba(13,255,176,0.3)"/>
+        <circle cx="408" cy="408" r="10" fill="none" stroke="#0dffb0" stroke-width="1"/>
+        <circle cx="408" cy="408" r="4" fill="rgba(13,255,176,0.3)"/>
+        <path class="tr" d="M100 240 H160 V160 H280 V200" stroke="#0dffb0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path class="tr" d="M100 280 H140 V360 H240" stroke="#0dffb0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path class="tr" d="M380 240 H340 V160 H280" stroke="#0dffb0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path class="tr" d="M240 380 V340" stroke="#0dffb0" stroke-width="2" stroke-linecap="round"/>
+        <rect x="200" y="140" width="120" height="90" rx="4" fill="#0a1a12" stroke="#0dffb0" stroke-width="1.5"/>
+        <text x="260" y="190" fill="rgba(13,255,176,0.6)" font-family="monospace" font-size="10" text-anchor="middle">MCU</text>
+        <rect x="192" y="152" width="8" height="5" rx="1" fill="#0dffb0" opacity=".6"/>
+        <rect x="192" y="164" width="8" height="5" rx="1" fill="#0dffb0" opacity=".6"/>
+        <rect x="192" y="176" width="8" height="5" rx="1" fill="#0dffb0" opacity=".6"/>
+        <rect x="192" y="188" width="8" height="5" rx="1" fill="#0dffb0" opacity=".6"/>
+        <rect x="192" y="200" width="8" height="5" rx="1" fill="#0dffb0" opacity=".6"/>
+        <rect x="320" y="152" width="8" height="5" rx="1" fill="#0dffb0" opacity=".6"/>
+        <rect x="320" y="164" width="8" height="5" rx="1" fill="#0dffb0" opacity=".6"/>
+        <rect x="320" y="176" width="8" height="5" rx="1" fill="#0dffb0" opacity=".6"/>
+        <rect x="320" y="188" width="8" height="5" rx="1" fill="#0dffb0" opacity=".6"/>
+        <rect x="320" y="200" width="8" height="5" rx="1" fill="#0dffb0" opacity=".6"/>
+        <rect x="120" y="290" width="80" height="60" rx="3" fill="#0a1a12" stroke="#0dffb0" stroke-width="1"/>
+        <text x="160" y="323" fill="rgba(13,255,176,0.5)" font-family="monospace" font-size="8" text-anchor="middle">REG</text>
+        <rect x="300" y="300" width="16" height="24" rx="2" fill="#0a1a12" stroke="#0dffb0" stroke-width="1"/>
+        <rect x="324" y="300" width="16" height="24" rx="2" fill="#0a1a12" stroke="#0dffb0" stroke-width="1"/>
+        <rect x="348" y="300" width="16" height="24" rx="2" fill="#0a1a12" stroke="#0dffb0" stroke-width="1"/>
+        <rect class="blink" x="100" y="150" width="30" height="12" rx="2" fill="#1a2a1a" stroke="#0dffb0" stroke-width=".8"/>
+        <rect class="blink" x="100" y="168" width="30" height="12" rx="2" fill="#1a2a1a" stroke="#0dffb0" stroke-width=".8"/>
+        <rect x="350" y="198" width="50" height="64" rx="3" fill="#0a1a12" stroke="#0dffb0" stroke-width="1"/>
+        <line x1="362" y1="198" x2="362" y2="262" stroke="#0dffb0" stroke-width=".5" opacity=".5"/>
+        <line x1="374" y1="198" x2="374" y2="262" stroke="#0dffb0" stroke-width=".5" opacity=".5"/>
+        <line x1="386" y1="198" x2="386" y2="262" stroke="#0dffb0" stroke-width=".5" opacity=".5"/>
+        <circle cx="160" cy="240" r="5" fill="#0a1a12" stroke="#0dffb0" stroke-width="1.2"/>
+        <circle cx="160" cy="280" r="5" fill="#0a1a12" stroke="#0dffb0" stroke-width="1.2"/>
+        <circle cx="240" cy="380" r="5" fill="#0a1a12" stroke="#0dffb0" stroke-width="1.2"/>
+        <circle class="blink" cx="240" cy="185" r="6" fill="rgba(13,255,176,.25)" stroke="#0dffb0" stroke-width="1"/>
+      </svg>
+    </div>
+  </div>
 </section>
 
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <div class="ticker-item"><span class="sep">◆</span> SMT Assembly</div>
+    <div class="ticker-item"><span class="sep">◆</span> Through-Hole Soldering</div>
+    <div class="ticker-item"><span class="sep">◆</span> Prototype Runs — Min 3 PCBs</div>
+    <div class="ticker-item"><span class="sep">◆</span> Max 10 Boards Per Order</div>
+    <div class="ticker-item"><span class="sep">◆</span> Bengaluru Based</div>
+    <div class="ticker-item"><span class="sep">◆</span> BOM Review &amp; Sourcing</div>
+    <div class="ticker-item"><span class="sep">◆</span> Visual Inspection Included</div>
+    <div class="ticker-item"><span class="sep">◆</span> Rework &amp; Repair Available</div>
+    <div class="ticker-item"><span class="sep">◆</span> 24h Quote Turnaround</div>
+    <!-- duplicate for seamless loop -->
+    <div class="ticker-item"><span class="sep">◆</span> SMT Assembly</div>
+    <div class="ticker-item"><span class="sep">◆</span> Through-Hole Soldering</div>
+    <div class="ticker-item"><span class="sep">◆</span> Prototype Runs — Min 3 PCBs</div>
+    <div class="ticker-item"><span class="sep">◆</span> Max 10 Boards Per Order</div>
+    <div class="ticker-item"><span class="sep">◆</span> Bengaluru Based</div>
+    <div class="ticker-item"><span class="sep">◆</span> BOM Review &amp; Sourcing</div>
+    <div class="ticker-item"><span class="sep">◆</span> Visual Inspection Included</div>
+    <div class="ticker-item"><span class="sep">◆</span> Rework &amp; Repair Available</div>
+    <div class="ticker-item"><span class="sep">◆</span> 24h Quote Turnaround</div>
+  </div>
+</div>
+
 <!-- STATS -->
-<div class="stats">
-  <div class="stat">
-    <div class="stat-num">3+</div>
-    <div class="stat-label">Minimum PCB Order</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">∞</div>
-    <div class="stat-label">Max Qty (Timeline-Based)</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">BLR</div>
-    <div class="stat-label">Based in Bengaluru, India</div>
+<div class="stats-section reveal">
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-num" data-count="3">3</div>
+      <div class="stat-label">Minimum Order Quantity</div>
+      <div class="stat-sub">// boards per run</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" data-count="10">10</div>
+      <div class="stat-label">Maximum Order Quantity</div>
+      <div class="stat-sub">// per timeline slot</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">24h</div>
+      <div class="stat-label">Quote Turnaround</div>
+      <div class="stat-sub">// after file review</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">BLR</div>
+      <div class="stat-label">Bengaluru, Karnataka</div>
+      <div class="stat-sub">// in-person available</div>
+    </div>
   </div>
 </div>
 
 <!-- SERVICES -->
-<section id="services">
-  <div class="section-tag">// What We Do</div>
-  <h2>End-to-End<br>Assembly Services</h2>
-  <p class="section-desc">From bare boards to fully tested assemblies. We handle the entire PCB assembly process so you can focus on building your product.</p>
+<section class="section" id="services">
+  <div class="reveal">
+    <div class="s-tag">What We Do</div>
+    <h2>Full-Spectrum<br>Assembly Services</h2>
+    <p class="s-desc">From component placement to final inspection — every step handled with precision and care.</p>
+  </div>
   <div class="services-grid">
-    <div class="service-card">
-      <div class="service-icon">🔧</div>
-      <h3>SMT Assembly</h3>
-      <p>Surface mount technology placement and reflow for fine-pitch components. Precise, reliable, and repeatable results on every run.</p>
-    </div>
-    <div class="service-card">
-      <div class="service-icon">🔩</div>
-      <h3>THT Assembly</h3>
-      <p>Through-hole component soldering for connectors, capacitors, and legacy components. Manual and wave solder capable.</p>
-    </div>
-    <div class="service-card">
-      <div class="service-icon">🛠️</div>
-      <h3>Prototype Runs</h3>
-      <p>Starting from just 3 PCBs — perfect for R&D, validation, and proof-of-concept builds without committing to large volumes.</p>
-    </div>
-    <div class="service-card">
-      <div class="service-icon">🔍</div>
-      <h3>Inspection & Testing</h3>
-      <p>Visual inspection and basic functional checks to catch defects before they reach your hands. Quality you can trust.</p>
-    </div>
-    <div class="service-card">
-      <div class="service-icon">📦</div>
-      <h3>Component Sourcing</h3>
-      <p>Don't have parts? We can help source components locally or assist with BOM review to keep your project moving.</p>
-    </div>
-    <div class="service-card">
-      <div class="service-icon">📐</div>
-      <h3>Rework & Repair</h3>
-      <p>Fix existing boards, replace components, and correct assembly errors — we rework what others can't.</p>
-    </div>
+    <div class="svc-card reveal"><div class="svc-icon">⚡</div><h3>SMT Assembly</h3><p>Surface mount technology for fine-pitch and high-density components. Precise reflow soldering every time.</p><span class="svc-tag">0402 → QFP → BGA</span></div>
+    <div class="svc-card reveal"><div class="svc-icon">🔩</div><h3>THT Assembly</h3><p>Through-hole component insertion and soldering for connectors, transformers, and legacy components.</p><span class="svc-tag">DIP · PTH · Wave</span></div>
+    <div class="svc-card reveal"><div class="svc-icon">🔬</div><h3>Prototype Runs</h3><p>Start with as few as 3 boards, up to 10. Perfect for R&D, validation, and proof-of-concept builds.</p><span class="svc-tag">Min 3 · Max 10 boards</span></div>
+    <div class="svc-card reveal"><div class="svc-icon">🔍</div><h3>Inspection &amp; QC</h3><p>Visual inspection and continuity checks on every build. Defects caught before they leave our hands.</p><span class="svc-tag">Visual · Continuity</span></div>
+    <div class="svc-card reveal"><div class="svc-icon">📦</div><h3>Component Sourcing</h3><p>BOM review, component verification, and local sourcing assistance in Bengaluru.</p><span class="svc-tag">BOM · Procurement</span></div>
+    <div class="svc-card reveal"><div class="svc-icon">🛠️</div><h3>Rework &amp; Repair</h3><p>Component replacement, trace repair, and fixing previously assembled boards with precision hot-air rework.</p><span class="svc-tag">Repair · Rebond</span></div>
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
-<section id="process">
-  <div class="section-tag">// Process</div>
-  <h2>Simple. Fast.<br>No Surprises.</h2>
-  <p class="section-desc">A streamlined process to get your boards assembled with the least friction possible.</p>
-  <div class="steps">
-    <div class="step">
-      <div class="step-num">01</div>
-      <h3>Send Us Your Files</h3>
-      <p>Share your Gerber files, BOM, and assembly drawings (pick & place if available). We'll review within 24 hours.</p>
+<!-- PROCESS -->
+<section class="section section-alt" id="process">
+  <div class="reveal">
+    <div class="s-tag">How It Works</div>
+    <h2>Four Steps.<br>Zero Confusion.</h2>
+    <p class="s-desc">A transparent process from your first message to finished boards in your hands.</p>
+  </div>
+  <div class="process-grid">
+    <div class="process-step reveal">
+      <div class="step-circle"><div class="step-num">01</div></div>
+      <h3>Share Your Files</h3>
+      <p>Send Gerber files, BOM, and pick &amp; place data. We review within 24 hours and flag any issues upfront.</p>
     </div>
-    <div class="step">
-      <div class="step-num">02</div>
-      <h3>Get a Quote</h3>
-      <p>We'll send you a detailed quote based on quantity, component complexity, and your required timeline.</p>
+    <div class="process-step reveal">
+      <div class="step-circle"><div class="step-num">02</div></div>
+      <h3>Receive Your Quote</h3>
+      <p>Get a detailed, transparent quote — assembly cost, component costs, timeline, and DFM feedback.</p>
     </div>
-    <div class="step">
-      <div class="step-num">03</div>
-      <h3>Confirm & Schedule</h3>
-      <p>Approve the quote, ship us your bare PCBs and components (or we source them), and we lock in your slot.</p>
+    <div class="process-step reveal">
+      <div class="step-circle"><div class="step-num">03</div></div>
+      <h3>Confirm &amp; Supply</h3>
+      <p>Approve the quote, ship us your bare PCBs and components (or we source them). Your slot is reserved.</p>
     </div>
-    <div class="step">
-      <div class="step-num">04</div>
-      <h3>Assembly & Delivery</h3>
-      <p>We assemble, inspect, and deliver your boards in Bengaluru — or coordinate shipping to your location.</p>
+    <div class="process-step reveal">
+      <div class="step-circle"><div class="step-num">04</div></div>
+      <h3>Inspect &amp; Collect</h3>
+      <p>Boards assembled, inspected, and ready. Collect in Bengaluru or we coordinate local delivery.</p>
     </div>
   </div>
 </section>
 
 <!-- PRICING -->
-<section id="pricing">
-  <div class="section-tag">// Pricing Tiers</div>
-  <h2>Flexible Quantities,<br>Fair Pricing</h2>
-  <p class="section-desc">Pricing depends on quantity, component count, and timeline. Contact us for an exact quote — no hidden fees.</p>
+<section class="section" id="pricing">
+  <div class="reveal">
+    <div class="s-tag">Pricing</div>
+    <h2>Transparent Tiers.<br>No Surprises.</h2>
+    <p class="s-desc">All pricing is project-specific. Contact us for an exact quote — here's our tier structure.</p>
+  </div>
   <div class="pricing-grid">
-    <div class="pricing-card">
-      <h3>Prototype</h3>
-      <div class="pricing-range">3 – 10 boards</div>
-      <ul>
-        <li>Min. 3 PCBs per order</li>
-        <li>SMT & THT support</li>
-        <li>Standard lead time</li>
-        <li>Visual inspection included</li>
-        <li>Ideal for R&D and testing</li>
+    <div class="price-card reveal">
+      <div class="price-tier">Tier 01</div>
+      <h3>Starter</h3>
+      <div class="price-range">Min <strong>3</strong> — Max <strong>5</strong> boards</div>
+      <ul class="price-features">
+        <li><span class="check-dot"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>SMT &amp; THT assembly</li>
+        <li><span class="check-dot"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Up to 50 unique components</li>
+        <li><span class="check-dot"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Visual inspection included</li>
+        <li><span class="check-dot"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Standard lead time</li>
+        <li><span class="check-dot"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Ideal for prototyping</li>
       </ul>
-      <a href="#contact" class="btn-outline">Get Quote</a>
+      <a href="#contact" class="btn btn-outline" style="width:100%;justify-content:center">Get Quote</a>
     </div>
-    <div class="pricing-card featured">
-      <div class="badge">Most Popular</div>
-      <h3>Small Batch</h3>
-      <div class="pricing-range">10 – 100 boards</div>
-      <ul>
-        <li>Volume discount applies</li>
-        <li>SMT + THT mixed assembly</li>
-        <li>Priority scheduling available</li>
-        <li>Inspection & basic testing</li>
-        <li>Pilot run before full batch</li>
+    <div class="price-card featured reveal">
+      <div class="pop-badge">Popular</div>
+      <div class="price-tier">Tier 02</div>
+      <h3>Standard</h3>
+      <div class="price-range">Min <strong>5</strong> — Max <strong>10</strong> boards</div>
+      <ul class="price-features">
+        <li><span class="check-dot"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>SMT &amp; THT mixed assembly</li>
+        <li><span class="check-dot"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Unlimited component types</li>
+        <li><span class="check-dot"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Inspection + continuity check</li>
+        <li><span class="check-dot"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Priority scheduling</li>
+        <li><span class="check-dot"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>DFM feedback included</li>
       </ul>
-      <a href="#contact" class="btn-primary">Get Quote</a>
+      <a href="#contact" class="btn btn-green" style="width:100%;justify-content:center">Get Quote</a>
     </div>
-    <div class="pricing-card">
-      <h3>Production</h3>
-      <div class="pricing-range">100+ boards</div>
-      <ul>
-        <li>Timeline-based capacity</li>
-        <li>Best per-unit pricing</li>
-        <li>Dedicated project manager</li>
-        <li>Full QC process</li>
-        <li>Discuss requirements first</li>
+    <div class="price-card reveal">
+      <div class="price-tier">Tier 03</div>
+      <h3>Custom</h3>
+      <div class="price-range">Discuss your <strong>specific</strong> needs</div>
+      <ul class="price-features">
+        <li><span class="check-dot"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Rework &amp; repair projects</li>
+        <li><span class="check-dot"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Complex mixed assembly</li>
+        <li><span class="check-dot"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Component sourcing support</li>
+        <li><span class="check-dot"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>Flexible timeline discussion</li>
+        <li><span class="check-dot"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>One-on-one consultation</li>
       </ul>
-      <a href="#contact" class="btn-outline">Let's Talk</a>
+      <a href="#contact" class="btn btn-outline" style="width:100%;justify-content:center">Let's Talk</a>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="section section-alt" id="why">
+  <div class="why-grid">
+    <div>
+      <div class="s-tag reveal">Why ArUnaTechLabs</div>
+      <h2 class="reveal">Local. Precise.<br>Reliable.</h2>
+      <p class="s-desc reveal" style="margin-bottom:40px">We're not a large factory — a focused local team that cares about every board we build.</p>
+      <div class="why-items">
+        <div class="why-item reveal">
+          <div class="why-num">01</div>
+          <div class="why-text"><h4>Small Batches Welcome</h4><p>Most assemblers skip orders under 50 boards. We start at 3 — your prototype matters just as much as production.</p></div>
+        </div>
+        <div class="why-item reveal">
+          <div class="why-num">02</div>
+          <div class="why-text"><h4>Bengaluru Based</h4><p>No intercity shipping delays. Drop off boards, track progress, pick them up directly. Local accountability.</p></div>
+        </div>
+        <div class="why-item reveal">
+          <div class="why-num">03</div>
+          <div class="why-text"><h4>Transparent Communication</h4><p>Always know the status of your order. No ghosting, no surprises — clear updates at every stage.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="spec-card">
+        <div class="spec-head">// CAPABILITIES SPEC SHEET</div>
+        <div class="spec-row"><span class="spec-k">min_quantity</span><span class="spec-v">3 boards</span></div>
+        <div class="spec-row"><span class="spec-k">max_quantity</span><span class="spec-v">10 boards</span></div>
+        <div class="spec-row"><span class="spec-k">assembly_type</span><span class="spec-v">SMT + THT</span></div>
+        <div class="spec-row"><span class="spec-k">location</span><span class="spec-v">Bengaluru, KA</span></div>
+        <div class="spec-row"><span class="spec-k">quote_turnaround</span><span class="spec-v">~24 hours</span></div>
+        <div class="spec-row"><span class="spec-k">component_sourcing</span><span class="spec-v">available</span></div>
+        <div class="spec-row"><span class="spec-k">rework</span><span class="spec-v">available</span></div>
+        <div class="cap-label">// SMT LINE UTILIZATION</div>
+        <div class="cap-bar"><div class="cap-fill" style="width:72%"></div></div>
+        <div class="cap-label">// THT STATION UTILIZATION</div>
+        <div class="cap-bar"><div class="cap-fill" style="width:55%;animation-delay:0.3s"></div></div>
+        <div class="accepting-tag">✓ ACCEPTING NEW ORDERS</div>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- CONTACT -->
-<section id="contact">
-  <div class="section-tag">// Contact</div>
-  <h2>Start Your<br>Project Today</h2>
+<section class="section" id="contact">
+  <div class="reveal">
+    <div class="s-tag">Contact</div>
+    <h2>Start Your<br>Project Today</h2>
+  </div>
   <div class="contact-grid">
-    <div class="contact-info">
-      <p>Ready to get your PCBs assembled? Send us your project details and we'll get back to you with a quote within 24 hours.</p>
-      <div class="contact-item">
-        <div class="contact-item-icon">📍</div>
-        <div class="contact-item-text">
-          <strong>Location</strong>
-          Bengaluru, Karnataka, India
-        </div>
-      </div>
-      <div class="contact-item">
-        <div class="contact-item-icon">⚡</div>
-        <div class="contact-item-text">
-          <strong>Minimum Order</strong>
-          3 PCBs per order
-        </div>
-      </div>
-      <div class="contact-item">
-        <div class="contact-item-icon">📅</div>
-        <div class="contact-item-text">
-          <strong>Lead Time</strong>
-          Based on quantity & complexity — discuss with us
-        </div>
-      </div>
-      <div class="contact-item">
-        <div class="contact-item-icon">✉️</div>
-        <div class="contact-item-text">
-          <strong>Email</strong>
-          hello@arunatechlabs.in
-        </div>
+    <div class="contact-info reveal">
+      <h3>Let's Build<br>Something Together</h3>
+      <p>Fill in your project details and we'll respond with a tailored quote within 24 hours. No commitment needed — just a conversation.</p>
+      <div class="c-item"><div class="c-icon">📍</div><div class="c-text"><strong>Location</strong><span>Bengaluru, Karnataka, India</span></div></div>
+      <div class="c-item"><div class="c-icon">✉️</div><div class="c-text"><strong>Email</strong><span>hello@arunatechlabs.in</span></div></div>
+      <div class="c-item"><div class="c-icon">⚡</div><div class="c-text"><strong>Order Range</strong><span>3 – 10 PCBs per order</span></div></div>
+      <div class="c-item"><div class="c-icon">📅</div><div class="c-text"><strong>Response Time</strong><span>Within 24 hours on business days</span></div></div>
+      <div class="guarantee-box">
+        <p><strong>🔒 What to expect:</strong> After submitting you'll receive instant acknowledgment with a reference number. Our team reviews requirements and sends a detailed quote via email. No spam, no unsolicited calls.</p>
       </div>
     </div>
-    <form onsubmit="handleSubmit(event)">
-      <input type="text" placeholder="Your Name" required />
-      <input type="email" placeholder="Email Address" required />
-      <input type="text" placeholder="Company / Project Name" />
-      <select>
-        <option value="" disabled selected>Quantity Range</option>
-        <option>3 – 10 boards (Prototype)</option>
-        <option>10 – 100 boards (Small Batch)</option>
-        <option>100+ boards (Production)</option>
-        <option>Not sure yet</option>
-      </select>
-      <textarea placeholder="Describe your project — component count, layer stackup, timeline, any special requirements..."></textarea>
-      <button type="submit" class="btn-primary">Send Inquiry →</button>
-    </form>
+
+    <div class="form-card reveal">
+      <h3>Request a Quote</h3>
+      <form id="quoteForm" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group"><label>Full Name *</label><input type="text" placeholder="Arjun Kumar" required/></div>
+          <div class="form-group"><label>Email Address *</label><input type="email" placeholder="you@example.com" required/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Phone Number</label><input type="tel" placeholder="+91 98765 43210"/></div>
+          <div class="form-group"><label>Company / Project</label><input type="text" placeholder="My Project Name"/></div>
+        </div>
+        <div class="form-group">
+          <label>Quantity Required *</label>
+          <select required>
+            <option value="" disabled selected>Select board quantity</option>
+            <option>3 – 5 boards (Starter)</option>
+            <option>5 – 10 boards (Standard)</option>
+            <option>Custom / Rework / Repair</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Assembly Type *</label>
+          <select required>
+            <option value="" disabled selected>Select assembly type</option>
+            <option>SMT Only</option>
+            <option>THT Only</option>
+            <option>SMT + THT Mixed</option>
+            <option>Rework / Repair</option>
+            <option>Not Sure Yet</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Project Description *</label>
+          <textarea placeholder="Describe your project — board dimensions, component count, timeline, any special requirements..." required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Component Sourcing Needed?</label>
+          <select>
+            <option>No — I will supply all components</option>
+            <option>Yes — Please help source components</option>
+            <option>Partial — Need help with some parts</option>
+          </select>
+        </div>
+
+        <!-- PREFERRED LEAD TIME -->
+        <div class="form-group">
+          <label>Preferred Lead Time</label>
+          <div class="lt-grid">
+            <div class="lt-opt">
+              <input type="radio" name="leadtime" id="lt1" value="urgent"/>
+              <label for="lt1">
+                <span class="lt-emoji">⚡</span>
+                <span class="lt-name">Urgent</span>
+                <span class="lt-days">3 – 5 days</span>
+              </label>
+            </div>
+            <div class="lt-opt">
+              <input type="radio" name="leadtime" id="lt2" value="standard" checked/>
+              <label for="lt2">
+                <span class="lt-emoji">📅</span>
+                <span class="lt-name">Standard</span>
+                <span class="lt-days">7 – 10 days</span>
+              </label>
+            </div>
+            <div class="lt-opt">
+              <input type="radio" name="leadtime" id="lt3" value="flexible"/>
+              <label for="lt3">
+                <span class="lt-emoji">🌿</span>
+                <span class="lt-name">Flexible</span>
+                <span class="lt-days">2 – 3 weeks</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- FILE UPLOAD -->
+        <div class="form-group">
+          <label>Attach Files <span style="color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400">(Gerber, BOM, Pick &amp; Place)</span></label>
+          <div class="upload-zone" id="uploadZone">
+            <input type="file" id="fileInput" multiple
+              accept=".zip,.rar,.gbr,.gtl,.gbl,.gts,.gbs,.gto,.gbo,.drl,.xls,.xlsx,.csv,.pdf,.txt,.ods"
+              onchange="handleFiles(this.files)"/>
+            <div class="upload-icon">
+              <svg viewBox="0 0 24 24"><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M16 8l-4-4-4 4M12 4v12"/></svg>
+            </div>
+            <p class="uz-text"><strong>Click to upload</strong> or drag &amp; drop files here</p>
+            <small>Gerber · BOM · Pick &amp; Place · PDF · ZIP — Max 20MB per file</small>
+            <div class="file-list" id="fileList"></div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Send Inquiry
+        </button>
+      </form>
+    </div>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div class="logo">Aruna<span style="color:var(--green)">TechLabs</span></div>
-  <div>PCB Assembly · Bengaluru, India</div>
-  <div>© 2024 ArUnaTechLabs. All rights reserved.</div>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="logo-wrap">
+        <div class="logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#0dffb0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg></div>
+        <div class="logo-text">Aruna<span>Tech</span>Labs</div>
+      </a>
+      <p>Precision PCB assembly in Bengaluru, India. Serving electronics startups, makers, and engineers who need quality builds at small volumes — 3 to 10 boards per order.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#services">SMT Assembly</a></li>
+        <li><a href="#services">THT Assembly</a></li>
+        <li><a href="#services">Prototype Runs</a></li>
+        <li><a href="#services">Inspection &amp; QC</a></li>
+        <li><a href="#services">Component Sourcing</a></li>
+        <li><a href="#services">Rework &amp; Repair</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#why">About Us</a></li>
+        <li><a href="#process">Our Process</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2024 ArUnaTechLabs. All rights reserved.</div>
+    <div class="status-row"><span class="status-dot"></span> Accepting new orders</div>
+    <div>Bengaluru, Karnataka, India</div>
+  </div>
 </footer>
 
 <script>
-  // Glow cursor
-  const glow = document.getElementById('glow');
-  document.addEventListener('mousemove', e => {
-    glow.style.left = e.clientX + 'px';
-    glow.style.top = e.clientY + 'px';
-  });
-
-  // Form submit
-  function handleSubmit(e) {
-    e.preventDefault();
-    const btn = e.target.querySelector('button[type="submit"]');
-    btn.textContent = '✓ Inquiry Sent!';
-    btn.style.background = '#00cc6a';
-    setTimeout(() => {
-      btn.textContent = 'Send Inquiry →';
-      btn.style.background = '';
-      e.target.reset();
-    }, 3000);
+// ── MOBILE MENU ──
+function toggleMenu() {
+  const menu = document.getElementById('nav-menu');
+  const btn = document.getElementById('hamburger');
+  menu.classList.toggle('open');
+  btn.textContent = menu.classList.contains('open') ? '✕' : '☰';
+}
+document.addEventListener('click', e => {
+  const menu = document.getElementById('nav-menu');
+  if (menu.classList.contains('open') && !e.target.closest('nav')) {
+    menu.classList.remove('open');
+    document.getElementById('hamburger').textContent = '☰';
   }
-
-  // Scroll reveal
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-      }
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.service-card, .step, .pricing-card, .stat').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-    observer.observe(el);
+});
+document.querySelectorAll('nav ul a').forEach(a => {
+  a.addEventListener('click', () => {
+    document.getElementById('nav-menu').classList.remove('open');
+    document.getElementById('hamburger').textContent = '☰';
   });
+});
+
+// ── SCROLL REVEAL ──
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+// ── COUNTER ANIMATION ──
+function animateCounter(el) {
+  const target = parseInt(el.dataset.count);
+  if (!target) return;
+  let curr = 0; const step = target / 40;
+  const t = setInterval(() => {
+    curr = Math.min(curr + step, target);
+    el.textContent = Math.ceil(curr);
+    if (curr >= target) clearInterval(t);
+  }, 30);
+}
+const cntObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { animateCounter(e.target); cntObs.unobserve(e.target); } });
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-count]').forEach(el => cntObs.observe(el));
+
+// ── NAV ACTIVE HIGHLIGHT ──
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('nav ul a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) cur = s.id; });
+  navLinks.forEach(a => {
+    a.style.color = '';
+    if (a.getAttribute('href') === '#' + cur && !a.classList.contains('nav-cta')) a.style.color = 'var(--green)';
+  });
+}, { passive: true });
+
+// ── CONFETTI ──
+function spawnConfetti() {
+  const c = document.getElementById('confetti');
+  const colors = ['#0dffb0','#3b82f6','#ffb400','#fff','#00d48a'];
+  for (let i = 0; i < 28; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.cssText = `
+      left:${Math.random()*100}%;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      width:${4+Math.random()*8}px; height:${4+Math.random()*8}px;
+      border-radius:${Math.random()>.5?'50%':'2px'};
+      animation-duration:${1.2+Math.random()*2}s;
+      animation-delay:${Math.random()*0.4}s;
+    `;
+    c.appendChild(el);
+    setTimeout(() => el.remove(), 3500);
+  }
+}
+
+// ── MODAL ──
+function openModal() {
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal')) closeModal();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ── FORM SUBMIT ──
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="animation:spin 1s linear infinite"><path d="M12 3a9 9 0 019 9"/></svg> Submitting...`;
+  setTimeout(() => {
+    btn.disabled = false;
+    btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Inquiry`;
+    document.getElementById('modal-ref').textContent = 'REF: ATL-' + Date.now().toString().slice(-6);
+    openModal();
+    spawnConfetti();
+    e.target.reset();
+    uploadedFiles = [];
+    renderFileList();
+  }, 1600);
+}
+
+// add spin keyframe
+document.head.insertAdjacentHTML('beforeend','<style>@keyframes spin{to{transform:rotate(360deg)}}</style>');
+
+// ── FILE UPLOAD ──
+let uploadedFiles = [];
+
+function fmtSize(b) {
+  if (b < 1024) return b + 'B';
+  if (b < 1048576) return (b/1024).toFixed(1) + 'KB';
+  return (b/1048576).toFixed(1) + 'MB';
+}
+
+function handleFiles(files) {
+  Array.from(files).forEach(f => {
+    if (f.size > 20 * 1024 * 1024) { alert(f.name + ' exceeds the 20MB limit.'); return; }
+    if (uploadedFiles.find(x => x.name === f.name && x.size === f.size)) return;
+    uploadedFiles.push(f);
+  });
+  renderFileList();
+}
+
+function removeFile(i) {
+  uploadedFiles.splice(i, 1);
+  renderFileList();
+}
+
+function renderFileList() {
+  const fl = document.getElementById('fileList');
+  const uz = document.getElementById('uploadZone');
+  fl.innerHTML = '';
+  if (uploadedFiles.length === 0) { uz.classList.remove('has-files'); return; }
+  uz.classList.add('has-files');
+  const icons = { ZIP:'📦', RAR:'📦', PDF:'📄', XLS:'📊', XLSX:'📊', CSV:'📊', GBR:'🔧', GTL:'🔧', GBL:'🔧', DRL:'🔧', TXT:'📝', ODS:'📊' };
+  uploadedFiles.forEach((f, i) => {
+    const ext = f.name.split('.').pop().toUpperCase();
+    const icon = icons[ext] || '📎';
+    const div = document.createElement('div');
+    div.className = 'file-item';
+    div.innerHTML = `
+      <div class="file-name"><span>${icon}</span><em title="${f.name}">${f.name}</em></div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <span class="file-size">${fmtSize(f.size)}</span>
+        <button type="button" class="file-remove" onclick="removeFile(${i})">✕</button>
+      </div>`;
+    fl.appendChild(div);
+  });
+}
+
+// Drag & drop
+const uploadZone = document.getElementById('uploadZone');
+const fileInput  = document.getElementById('fileInput');
+uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag'); });
+uploadZone.addEventListener('dragleave', e => { if (!uploadZone.contains(e.relatedTarget)) uploadZone.classList.remove('drag'); });
+uploadZone.addEventListener('drop', e => { e.preventDefault(); uploadZone.classList.remove('drag'); handleFiles(e.dataTransfer.files); });
 </script>
 </body>
 </html>
